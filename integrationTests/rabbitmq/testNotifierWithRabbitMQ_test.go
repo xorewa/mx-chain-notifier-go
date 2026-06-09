@@ -83,6 +83,10 @@ func testNotifierWithRabbitMQ(t *testing.T, observerType string, payloadVersion 
 	go pushRevertRequest(wg, client)
 
 	integrationTests.WaitTimeout(t, wg, time.Second*5)
+	waitForPublishedEntries(t,
+		func() int { return len(notifier.RedisClient.GetEntries()) },
+		func() int { return len(notifier.RabbitMQClient.GetEntries()) },
+	)
 
 	assert.Equal(t, numExpRedisEvents, len(notifier.RedisClient.GetEntries()))
 	assert.Equal(t, numExpRabbitMQEvents, len(notifier.RabbitMQClient.GetEntries()))
@@ -115,9 +119,22 @@ func testNotifierWithRabbitMQV3(t *testing.T, observerType string, payloadVersio
 	go pushRevertRequestV3(wg, client)
 
 	integrationTests.WaitTimeout(t, wg, time.Second*5)
+	waitForPublishedEntries(t,
+		func() int { return len(notifier.RedisClient.GetEntries()) },
+		func() int { return len(notifier.RabbitMQClient.GetEntries()) },
+	)
 
 	assert.Equal(t, numExpRedisEvents, len(notifier.RedisClient.GetEntries()))
 	assert.Equal(t, numExpRabbitMQEvents, len(notifier.RabbitMQClient.GetEntries()))
+}
+
+func waitForPublishedEntries(t *testing.T, redisEntriesCount func() int, rabbitMQEntriesCount func() int) {
+	t.Helper()
+
+	integrationTests.WaitUntil(t, time.Second*5, func() bool {
+		return redisEntriesCount() >= numExpRedisEvents &&
+			rabbitMQEntriesCount() >= numExpRabbitMQEvents
+	})
 }
 
 func pushEventsRequest(wg *sync.WaitGroup, webServer integrationTests.ObserverConnector) {

@@ -171,6 +171,25 @@ func WaitTimeout(t *testing.T, wg *sync.WaitGroup, timeout time.Duration) {
 	}
 }
 
+func WaitUntil(t *testing.T, timeout time.Duration, condition func() bool) {
+	deadline := time.After(timeout)
+	ticker := time.NewTicker(10 * time.Millisecond)
+	defer ticker.Stop()
+
+	for {
+		if condition() {
+			return
+		}
+
+		select {
+		case <-ticker.C:
+		case <-deadline:
+			assert.Fail(t, "timeout waiting for condition")
+			return
+		}
+	}
+}
+
 func getDefaultRoutesConfig() config.APIRoutesConfig {
 	return config.APIRoutesConfig{
 		APIPackages: map[string]config.APIPackageConfig{

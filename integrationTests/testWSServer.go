@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"sync"
 
@@ -22,8 +23,10 @@ type wsClient struct {
 func NewWSClient(h http.Handler) (*wsClient, error) {
 	s := httptest.NewServer(h)
 	wsURL := "ws" + strings.TrimPrefix(s.URL, "http")
+	headers := http.Header{}
+	headers.Set("Origin", sameHostOrigin(s.URL))
 
-	ws, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
+	ws, _, err := websocket.DefaultDialer.Dial(wsURL, headers)
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +35,15 @@ func NewWSClient(h http.Handler) (*wsClient, error) {
 		wsConn:     ws,
 		httpServer: s,
 	}, nil
+}
+
+func sameHostOrigin(rawURL string) string {
+	parsedURL, err := url.Parse(rawURL)
+	if err != nil {
+		return rawURL
+	}
+
+	return "http://" + parsedURL.Host
 }
 
 // SendSubscribeMessage will send subscribe message
