@@ -8,7 +8,7 @@ import (
 
 // RedisClientMock -
 type RedisClientMock struct {
-	mut     sync.Mutex
+	mut     sync.RWMutex
 	entries map[string]bool
 }
 
@@ -42,10 +42,15 @@ func (rc *RedisClientMock) SetEntry(_ context.Context, key string, value bool, t
 
 // GetEntries -
 func (rc *RedisClientMock) GetEntries() map[string]bool {
-	rc.mut.Lock()
-	defer rc.mut.Unlock()
+	rc.mut.RLock()
+	defer rc.mut.RUnlock()
 
-	return rc.entries
+	entries := make(map[string]bool, len(rc.entries))
+	for key, value := range rc.entries {
+		entries[key] = value
+	}
+
+	return entries
 }
 
 // Ping -
