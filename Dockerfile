@@ -1,6 +1,6 @@
-FROM golang:1.23.6 AS builder
+FROM golang:1.26.5 AS builder
 
-MAINTAINER MultiversX
+LABEL org.opencontainers.image.authors="MultiversX"
 
 WORKDIR /multiversx
 COPY . .
@@ -18,7 +18,6 @@ EXPOSE 8080
 WORKDIR /multiversx
 
 RUN apt-get update && apt-get install -y curl
-CMD /bin/bash
 
 ENTRYPOINT ["./notifier"]
 CMD ["--api-type", "rabbit-api"]
