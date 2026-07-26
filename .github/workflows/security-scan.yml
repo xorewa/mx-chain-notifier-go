@@ -2,11 +2,9 @@ name: Security scan
 
 on:
   pull_request:
+    branches: [NewArc]
   push:
-    branches: [master, main]
-  schedule:
-    - cron: "0 6 * * *"
-  workflow_dispatch:
+    branches: [NewArc]
 
 permissions:
   contents: read

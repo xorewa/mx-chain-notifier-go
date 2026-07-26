@@ -2,9 +2,9 @@ name: Go Build
 
 on:
   push:
-    branches: [ main, rc/*, feat/* ]
+    branches: [ NewArc ]
   pull_request:
-    branches: [ main, rc/*, feat/* ]
+    branches: [ NewArc ]
 
 jobs:
   build:
@@ -21,11 +21,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get dependencies
-        run: |
-          go mod download
-          if [ -f Gopkg.toml ]; then
-              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-              dep ensure
-          fi
+        run: go mod download
       - name: Build
         run: make build
