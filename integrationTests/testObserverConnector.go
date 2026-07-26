@@ -63,8 +63,11 @@ func newTestWSServer(facade shared.FacadeHandler, marshaller marshal.Marshalizer
 		return nil, err
 	}
 
-	// wait for ws client to start
-	time.Sleep(10 * time.Second)
+	err = waitForWSClientConnection(wsClient, 15*time.Second)
+	if err != nil {
+		_ = wsClient.Close()
+		return nil, err
+	}
 
 	return wsClient, nil
 }
@@ -89,6 +92,11 @@ type senderHost interface {
 	Send(payload []byte, topic string) error
 	Close() error
 	IsInterfaceNil() bool
+}
+
+type connectionAwareSenderHost interface {
+	senderHost
+	IsOpen() bool
 }
 
 type wsObsClient struct {
@@ -121,6 +129,30 @@ func newWSObsClient(marshaller marshal.Marshalizer, url string) (*wsObsClient, e
 		marshaller: marshaller,
 		senderHost: wsHost,
 	}, nil
+}
+
+func waitForWSClientConnection(wsClient *wsObsClient, timeout time.Duration) error {
+	connectionAwareHost, ok := wsClient.senderHost.(connectionAwareSenderHost)
+	if !ok {
+		return errors.New("websocket client does not expose connection status")
+	}
+
+	ticker := time.NewTicker(50 * time.Millisecond)
+	defer ticker.Stop()
+	timeoutTimer := time.NewTimer(timeout)
+	defer timeoutTimer.Stop()
+
+	for {
+		if connectionAwareHost.IsOpen() {
+			return nil
+		}
+
+		select {
+		case <-ticker.C:
+		case <-timeoutTimer.C:
+			return fmt.Errorf("timed out waiting for websocket client connection after %s", timeout)
+		}
+	}
 }
 
 // SaveBlock will handle the saving of block

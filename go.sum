@@ -183,8 +183,8 @@ github.com/ugorji/go/codec v1.2.12 h1:9LC83zGrHhuUA9l16C9AHXAqEV/2wBQ4nkvumAE65E
 github.com/ugorji/go/codec v1.2.12/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/urfave/cli v1.22.10 h1:p8Fspmz3iTctJstry1PYS3HVdllxnEzTEsgIgtxTrCk=
 github.com/urfave/cli v1.22.10/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
-github.com/xorewa/mx-chain-communication-go v0.0.0-20260726060246-78040de3a3a6 h1:Yov/9oWoyFTlZNWAmLqW0jrv9jQdS/n9pLXmrjx+G4A=
-github.com/xorewa/mx-chain-communication-go v0.0.0-20260726060246-78040de3a3a6/go.mod h1:3iEVh51EKpItURjG3fVJRyjsaOXvqUDF4l3Z23ED5X8=
+github.com/xorewa/mx-chain-communication-go v0.0.0-20260726075341-d703206be848 h1:OGRfsBxRyweQjwIQ+tmrbpYIhshAtwroxTnhFUjjM6I=
+github.com/xorewa/mx-chain-communication-go v0.0.0-20260726075341-d703206be848/go.mod h1:3iEVh51EKpItURjG3fVJRyjsaOXvqUDF4l3Z23ED5X8=
 github.com/xorewa/mx-chain-core-go v0.0.0-20260726052636-57c2876d270c h1:Yl99iRPzZ2zk9IoEE2iAsQ6rDDSxSNRwjbJmGMo229I=
 github.com/xorewa/mx-chain-core-go v0.0.0-20260726052636-57c2876d270c/go.mod h1:nx8HPC1fvHcXGXNAUQaMXNQWSMgSWcqST+Od76tuCeI=
 github.com/xorewa/mx-chain-crypto-go v0.0.0-20260726053711-589bae1ad07e h1:svlWBagkUyeazLsqcjDL+vEDum9RjK3q7jXFRJ50DPo=
