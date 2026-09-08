@@ -1058,7 +1058,7 @@ func TestEventsInterceptor_GetStateAccessesPerAccounts(t *testing.T) {
 			},
 			StateAccesses: make(map[string]*stateChange.StateAccesses),
 			StateAccessesForBlock: map[string]*outport.StateAccessesForBlock{
-				hex.EncodeToString(blockHash): {stateAccesses},
+				hex.EncodeToString(blockHash): {StateAccesses: stateAccesses},
 			},
 		}
 
@@ -1147,7 +1147,7 @@ func TestEventsInterceptor_GetStateAccessesPerAccounts(t *testing.T) {
 			},
 			StateAccesses: make(map[string]*stateChange.StateAccesses),
 			StateAccessesForBlock: map[string]*outport.StateAccessesForBlock{
-				hex.EncodeToString(blockHash): {stateAccesses},
+				hex.EncodeToString(blockHash): {StateAccesses: stateAccesses},
 			},
 		}
 
@@ -1205,7 +1205,7 @@ func TestEventsInterceptor_GetStateAccessesPerAccounts(t *testing.T) {
 			},
 			StateAccesses: make(map[string]*stateChange.StateAccesses),
 			StateAccessesForBlock: map[string]*outport.StateAccessesForBlock{
-				hex.EncodeToString(blockHash): {stateAccesses},
+				hex.EncodeToString(blockHash): {StateAccesses: stateAccesses},
 			},
 		}
 
@@ -1249,7 +1249,7 @@ func TestEventsInterceptor_GetStateAccessesPerAccounts(t *testing.T) {
 			},
 			StateAccesses: make(map[string]*stateChange.StateAccesses),
 			StateAccessesForBlock: map[string]*outport.StateAccessesForBlock{
-				hex.EncodeToString(blockHash): {stateAccessesReadWrite},
+				hex.EncodeToString(blockHash): {StateAccesses: stateAccessesReadWrite},
 			},
 		}
 
